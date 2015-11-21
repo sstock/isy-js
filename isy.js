@@ -70,12 +70,14 @@ ISY.prototype.getElkAlarmPanel = function() {
 ISY.prototype.loadNodes = function(result) {
     var document = new xmldoc.XmlDocument(result);
     var nodes = document.childrenNamed('node');
+    debugLog('Received ' + nodes.length + ' nodes');
     for(var index = 0; index < nodes.length; index++) {
         var deviceAddress = nodes[index].childNamed('address').val;
         var isyDeviceType = nodes[index].childNamed('type').val;
         var deviceName = nodes[index].childNamed('name').val;
         var newDevice = null;
         var deviceTypeInfo = isyTypeToTypeName(isyDeviceType, deviceAddress);
+        debugLog('node ' + deviceName + ' has type ' + (deviceTypeInfo != null ? deviceTypeInfo.name : null) + ' (' + isyDeviceType + ')');
         
         if(deviceTypeInfo != null) {
             if(deviceTypeInfo.deviceType == this.DEVICE_TYPE_DIMMABLE_LIGHT ||
